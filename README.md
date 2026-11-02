@@ -12,56 +12,30 @@ Sockets Links.
 
 Server:
 ```
-# echo_server.py 
 import socket 
-# Create socket object 
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
-# Bind the socket with host and port 
-host = '127.0.0.1' 
-port = 5000 
-server_socket.bind((host, port)) 
-# Listen for incoming connections 
-server_socket.listen(1) 
-print("Echo Server is waiting for connection...") 
-# Accept client connection 
-client_socket, addr = server_socket.accept() 
-print("Connected to:", addr) 
+s=socket.socket() 
+s.bind(('localhost',8000)) 
+s.listen(5) 
+c,addr=s.accept() 
 while True: 
-# Receive message from client 
-data = client_socket.recv(1024).decode() 
-if not data: 
-break 
-print("Client:", data) 
-# Send same message back to client 
-client_socket.send(data.encode()) 
-# Close sockets 
-client_socket.close() 
-server_socket.close()
+  ClientMessage=c.recv(1024).decode() 
+  c.send(ClientMessage.encode())
 ```
 client:
 ```
-# echo_client.py 
 import socket 
-# Create socket object 
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
-# Connect to server 
-host = '127.0.0.1' 
-port = 5000 
-client_socket.connect((host, port)) 
+s=socket.socket() 
+s.connect(('localhost',8000)) 
 while True: 
-# Input message 
-message = input("Enter message: ") 
-# Send message to server 
-client_socket.send(message.encode()) 
-if message.lower() == 'exit': 
-break 
-# Receive echoed message 
-data = client_socket.recv(1024).decode() 
-print("Server echoed:", data) 
-# Close socket 
-client_socket.close()
+  msg=input("Client > ") 
+  s.send(msg.encode()) 
+  print("Server > ",s.recv(1024).decode())
 ```
 ## OUPUT
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/9b01a8d2-e95d-4178-aaea-061ee0f226c3" />
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/cabee6c7-68b3-4145-8dd3-6510b8728b13" />
+
 
 
 
